@@ -4,7 +4,7 @@ services:
     build:
       context: ./
       dockerfile: ./Dockerfile
-    image: calculo_imposto_de_renda/api
+    image: calculo_imposto/api
     ports:
       - '8080:8080'
       - '8000:8000'
@@ -20,7 +20,7 @@ services:
       - '3306:3306'
     environment:
       - MYSQL_ROOT_HOST=%
-      - MYSQL_DATABASE=calculo_imposto_de_renda_mysql
+      - MYSQL_DATABASE=calculo_imposto_mysql
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes
     volumes:
