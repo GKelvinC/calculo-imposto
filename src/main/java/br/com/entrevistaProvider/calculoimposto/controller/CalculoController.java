@@ -17,10 +17,13 @@ import br.com.entrevistaProvider.calculoimposto.domain.model.ImpostoDeRenda;
 import br.com.entrevistaProvider.calculoimposto.dto.ImpostoDTO;
 import br.com.entrevistaProvider.calculoimposto.exception.ImpostoNotFoundException;
 import br.com.entrevistaProvider.calculoimposto.service.imposto.ImpostoDeRendaService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 
 @RestController
 @RequestMapping("/calculo")
+@Api(value="API REST Calculo Imposto")
 @CrossOrigin(origins="*")
 public class CalculoController {
 	
@@ -30,26 +33,31 @@ public class CalculoController {
 	
 	
 	@GetMapping("/")
+	@ApiOperation(value = "Retorna a lista de Impostos Já Calculados")
 	public List<ImpostoDeRenda> findAll(){
 		return impostoService.buscarTodosOsImpostos();
 	}
 	
 	@GetMapping("/{id}")
+	@ApiOperation(value = "Retorna um imposto já calculado")
 	public ImpostoDeRenda findById(@PathVariable(name="id",required=true) Long id) throws Exception{
 		return impostoService.buscarPorId(id);
 	}
 	
 	@PostMapping("/")
+	@ApiOperation(value = "Calcula um novo imposto")
 	public void saveImposto(@RequestBody ImpostoDTO imposto) {
 		impostoService.cadastro(imposto);
 	}
 	
 	@PutMapping("/{id}")
+	@ApiOperation(value = "Atualiza um imposto já calculado")
 	public void updateImposto(@PathVariable(name="id",required=true) Long id,@RequestBody ImpostoDTO impostoDTO) throws Exception {
 		impostoService.atualizarImposto(id, impostoDTO);
 	}
 	
 	@DeleteMapping("/{id}")
+	@ApiOperation(value = "Remove um imposto já calculado")
 	public void deleteImposto(@PathVariable(name="id",required=true) Long id) throws ImpostoNotFoundException {
 		impostoService.deletarPorId(id);
 	}
