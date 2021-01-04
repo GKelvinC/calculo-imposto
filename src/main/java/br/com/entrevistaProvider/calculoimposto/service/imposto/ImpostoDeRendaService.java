@@ -53,6 +53,37 @@ public class ImpostoDeRendaService {
 			LOG.error("Erro ao salvar o imposto: "+e.getMessage(),e);
 		}
 	}
+
 	
+	public void atualizarImposto(Long id,ImpostoDTO impostoDTO) throws ImpostoNotFoundException, ImpostoDTOException {
+		var imposto = impostoRepository.findById(id);
+
+		ImpostoDeRenda impostoDeRenda;
+		if(!imposto.isPresent()){
+			throw new ImpostoNotFoundException("Imposto Não encontrado através do ID:"+id);
+		}else {
+			impostoDTO.setId(null);
+			impostoDTO.setAliquotaImposto(null);
+			impostoDTO.setValor(null);
+			impostoDeRenda = impostoConversor.converterDTOtoEntity(impostoDTO);
+			impostoDeRenda.calcularImposto(impostoDTO.getDocumento());
+			impostoDeRenda.setId(id);
+			
+			impostoRepository.save(impostoDeRenda);
+		}
+	}
+	
+	public void deletarPorId(Long id) throws ImpostoNotFoundException {
+		var imposto = impostoRepository.findById(id);
+
+		if(!imposto.isPresent()){
+			throw new ImpostoNotFoundException("Imposto Não encontrado através do ID:"+id);
+		}else {
+			impostoRepository.deleteById(id);
+		}
+		
+	}
+	
+
 
 }
